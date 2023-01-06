@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Curso, Avaliacao
+from .models import Avaliacao, Curso
 
 
 class AvaliacaoSerializer(serializers.ModelSerializer):
@@ -23,6 +23,18 @@ class AvaliacaoSerializer(serializers.ModelSerializer):
 
 
 class CursoSerializer(serializers.ModelSerializer):
+ # Nested Relationship
+    # avaliacoes = AvaliacaoSerializer(many=True, read_only=True)
+    # HyperLinked Related Field
+
+    """  avaliacoes = serializers.HyperlinkedRelatedField(
+         many=True,
+         read_only=True,
+         view_name='avaliacao-detail'
+     ) """
+
+ # Primary Key Related Field
+    avaliacoes = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Curso
@@ -31,5 +43,6 @@ class CursoSerializer(serializers.ModelSerializer):
             'titulo',
             'url',
             'criacao',
-            'ativo'
+            'ativo',
+            'avaliacoes'
         )
